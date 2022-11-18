@@ -1,11 +1,21 @@
 package com.shimanshu.security.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.sql.Date;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name="User")
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -15,46 +25,25 @@ public class UserEntity {
 //  private String middleName;
     private String lastName;
     private String password;
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    //    private Boolean isActive;
-//    private Boolean isLocked;
-//    private Boolean isDeleted;
-//    private Boolean isExpired;
-//    private Boolean invalidAttemptCount;
+    private Boolean isActive;
+    private Boolean isLocked;
+    private Boolean isDeleted;
+    private Boolean isExpired;
+    private Boolean invalidAttemptCount;
     private Date passwordUpdateDate;
     private String token;
 
-    public void setUsername(String Shimanshu_TTN) {         
-    }
+    @OneToOne(cascade = CascadeType.ALL)
+    Customer customer;
 
-    public void setFirstname(String Shimanshu) {
-        
-    }
 
-    public void setMiddle(String s) {
-        
-    }
 
-    public void setLastname(String Sharma) {
-    }
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "user_role", joinColumns=@JoinColumn(name = "user_id",referencedColumnName = "id"),
+    inverseJoinColumns = @JoinColumn(name = "role_id",referencedColumnName = "id"))
+    private List<Role> roles;
 
-    public void setEmail(String Shimans) {
-    }
+    @OneToMany(mappedBy = "userEntity" ,cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    private Set<Address> address;
 
-    public void setInvalidAttemptCcunt(int i) {
-    }
-
-    public void setAddress(Address address) {
-    }
-
-    public void setRoles(List<Role> roles) {
-    }
 }

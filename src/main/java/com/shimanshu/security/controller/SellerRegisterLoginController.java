@@ -7,6 +7,7 @@ import com.shimanshu.security.dto.RegisterDto;
 import com.shimanshu.security.entity.Role;
 import com.shimanshu.security.entity.Seller;
 import com.shimanshu.security.repository.RoleRepository;
+import com.shimanshu.security.repository.SellerRepository;
 import com.shimanshu.security.repository.UserRepository;
 import com.shimanshu.security.security.JWTGenerator;
 import com.shimanshu.security.service.TokenService;
@@ -47,12 +48,13 @@ public class SellerRegisterLoginController {
 
     @Autowired
     private EmailSenderService emailSenderService;
+    @Autowired
     private TokenService service;
 
     //register
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody RegisterDto registerDto) throws IOException {
-        if(userRepository.existsByemail(registerDto.getEmail())) {
+        if(userRepository.existsByEmail(registerDto.getEmail())) {
             return new ResponseEntity<>("Username is taken!", HttpStatus.BAD_REQUEST);
         }
         Seller user =  new Seller();

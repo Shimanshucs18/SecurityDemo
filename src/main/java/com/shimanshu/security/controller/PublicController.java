@@ -5,8 +5,10 @@ import com.shimanshu.security.dto.LoginDto;
 import com.shimanshu.security.dto.RegisterDto;
 import com.shimanshu.security.entity.Customer;
 import com.shimanshu.security.entity.Role;
+import com.shimanshu.security.entity.UserEntity;
 import com.shimanshu.security.repository.CustomerRepository;
 import com.shimanshu.security.repository.RoleRepository;
+import com.shimanshu.security.repository.UserRepository;
 import com.shimanshu.security.security.JWTGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,21 +27,24 @@ import java.util.Collections;
 public class PublicController {
 
     private AuthenticationManager authenticationManager;
-    private CustomerRepository customerRepository;
+
+
+
+    private UserRepository userRepository;
     private RoleRepository roleRepository;
     private PasswordEncoder passwordEncode;
 
     private JWTGenerator jwtGenerator;
 
     @Autowired
-    public PublicController(AuthenticationManager authenticationManager, CustomerRepository customerRepository, RoleRepository roleRepository, PasswordEncoder passwordEncode, JWTGenerator jwtGenerator) {
+    public PublicController(AuthenticationManager authenticationManager, UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncode, JWTGenerator jwtGenerator) {
         this.authenticationManager = authenticationManager;
-        this.customerRepository = customerRepository;
+
+        this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncode = passwordEncode;
         this.jwtGenerator = jwtGenerator;
     }
-
 
     @PostMapping("login")
     public ResponseEntity<AuthResponseDto> login(@RequestBody LoginDto loginDto) {
@@ -59,19 +64,20 @@ public class PublicController {
 
     @PostMapping("register")
     public ResponseEntity<String> register(@RequestBody RegisterDto registerDto) {
-        if (customerRepository.existsByEmail(registerDto.getEmail())) {
+        if (userRepository.existsByEmail(registerDto.getEmail())) {
             return new ResponseEntity<>("Email is already taken", HttpStatus.BAD_REQUEST);
         }
+        Customer customer =new Customer();
+        customer.setContact(registerDto.getPhoneNumber());
+        UserEntity user = new UserEntity();
+        user.setEmail(registerDto.getEmail());
+        user.setPassword(passwordEncode.encode(registerDto.getPassword()));
+        user.setCustomer(customer);
+        System.out.println(user);
+        Role roles = roleRepository.findByAuthority("CUSTOMER").get();
+        user.setRoles(Collections.singletonList(roles));
 
-        Customer customer = new Customer();
-        customer.setEmail(registerDto.getEmail());
-        customer.setPassword(passwordEncode.encode(registerDto.getPassword()));
-
-        System.out.println(customer);
-        Role roles = roleRepository.findByRole("CUSTOMER").get();
-        customer.setRoles(Collections.singletonList(roles));
-
-        customerRepository.save(customer);
+        userRepository.save(user);
 
         return new ResponseEntity<>("Customer Registered Successfully", HttpStatus.OK);
 

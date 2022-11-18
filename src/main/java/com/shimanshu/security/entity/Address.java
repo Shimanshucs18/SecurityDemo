@@ -2,7 +2,7 @@ package com.shimanshu.security.entity;
 
 import javax.persistence.*;
 
-//@Entity
+@Entity
 public class Address {
 
     @Id
@@ -40,8 +40,9 @@ public class Address {
     public void setUser(UserEntity user) {
     }
 
+    @ManyToOne()
+    @JoinColumn(name = "user_id")
+    private UserEntity userEntity;
 
-//    LABEL (Ex. office/home    )
-//
-//    USER_ID
+
 }

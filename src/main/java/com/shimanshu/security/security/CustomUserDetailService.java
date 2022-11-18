@@ -2,7 +2,9 @@ package com.shimanshu.security.security;
 
 import com.shimanshu.security.entity.Customer;
 import com.shimanshu.security.entity.Role;
+import com.shimanshu.security.entity.UserEntity;
 import com.shimanshu.security.repository.CustomerRepository;
+import com.shimanshu.security.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -18,18 +20,17 @@ import java.util.stream.Collectors;
 
 @Component
 public class CustomUserDetailService implements UserDetailsService {
-
     @Autowired
-    CustomerRepository customerRepository;
+    UserRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Customer customer = customerRepository.findByEmail(email).orElseThrow(()-> new UsernameNotFoundException("Customer Not Found"));
-        return new User(customer.getEmail(),customer.getPassword(),mapRolesToAuthorities(customer.getRoles()));
+        UserEntity user = userRepository.findByEmail(email).orElseThrow(()-> new UsernameNotFoundException("Customer Not Found"));
+        return new User(user.getEmail(),user.getPassword(),mapRolesToAuthorities(user.getRoles()));
     }
 
     private Collection<GrantedAuthority> mapRolesToAuthorities(List<Role> roles){
-        return roles.stream().map(role->new SimpleGrantedAuthority(role.getRole())).collect(Collectors.toList());
+        return roles.stream().map(role->new SimpleGrantedAuthority(role.getAuthority())).collect(Collectors.toList());
     }
 
     public CustomUserDetailService() {

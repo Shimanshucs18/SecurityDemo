@@ -3,10 +3,11 @@ package com.shimanshu.security.entity;
 import javax.persistence.*;
 import java.util.List;
 
-
+@Entity
 public class Seller {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private Long gst;
@@ -17,9 +18,6 @@ public class Seller {
 
 
 
-   @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
-   @JoinTable(name="USER_ROLE",joinColumns = {@JoinColumn(name="SELLER_ID",referencedColumnName = "id")},inverseJoinColumns = {@JoinColumn(name="ROLE_ID",referencedColumnName = "id")})
-    List<Role> roles;
 
     public Seller() {
     }
@@ -34,6 +32,5 @@ public class Seller {
     }
 
     public void setActive(boolean b) {
-
     }
 }

@@ -14,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
 public class Bootstrap<Roles> implements ApplicationRunner {
     @Autowired
     RoleRepository rolesRepository;
@@ -64,3 +65,4 @@ public class Bootstrap<Roles> implements ApplicationRunner {
         }
     }
 }
+*/
