@@ -10,7 +10,16 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String role;
+    private String authority;
+
+    public Role() {
+
+    }
+
+    public Role(Long id, String authority) {
+        this.id = id;
+        this.authority = authority;
+    }
 
     public Long getId() {
         return id;
@@ -20,21 +29,12 @@ public class Role {
         this.id = id;
     }
 
-    public String getRole() {
-        return role;
+    public String getAuthority() {
+        return authority;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setAuthority(String authority) {
+        this.authority = authority;
     }
-    public Role() {
-    }
-
-    public Role(Long id, String role) {
-        this.id = id;
-        this.role = role;
-    }
-
-
 }
 

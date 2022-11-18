@@ -23,4 +23,17 @@ public class Seller {
 
     public Seller() {
     }
+
+    public void setEmail(String email) {
+    }
+
+    public void setPassword(String encode) {
+    }
+
+    public void setRole(List<Role> singletonList) {
+    }
+
+    public void setActive(boolean b) {
+
+    }
 }

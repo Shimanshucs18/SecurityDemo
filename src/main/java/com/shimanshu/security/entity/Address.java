@@ -19,8 +19,29 @@ public class Address {
 
     private int zipCode;
 
+    public void setCity(String mathura) {
+    }
 
-//    LABEL (Ex. office/home)
+    public void setCountry(String india) {
+    }
+
+    public void setLabel(String homeTown) {
+    }
+
+    public void setState(String up) {
+    }
+
+    public void setZipcode(String s) {
+    }
+
+    public void add(Address address) {
+    }
+
+    public void setUser(UserEntity user) {
+    }
+
+
+//    LABEL (Ex. office/home    )
 //
 //    USER_ID
 }

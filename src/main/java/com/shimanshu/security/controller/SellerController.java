@@ -6,13 +6,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = "/customer")
-public class CustomerController {
+@RequestMapping(value = "/seller")
+public class SellerController {
 
 
     @GetMapping("login")
     public String display(){
-        return "Hello People";
+        return "Hello Seller";
     }
 
 

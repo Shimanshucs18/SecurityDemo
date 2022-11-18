@@ -41,24 +41,25 @@ public class PublicController {
     }
 
 
-
-
     @PostMapping("login")
-    public ResponseEntity<AuthResponseDto> login(@RequestBody LoginDto loginDto ){
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDto.getEmail(),loginDto.getPassword()));
+    public ResponseEntity<AuthResponseDto> login(@RequestBody LoginDto loginDto) {
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(loginDto.getEmail(),
+                        loginDto.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = jwtGenerator.generateToken(authentication);
-        return new ResponseEntity<>(new AuthResponseDto(token),HttpStatus.OK);
+        return new ResponseEntity<>(new AuthResponseDto(token), HttpStatus.OK);
 
     }
 
     @GetMapping("hello")
-    public String display(){
+    public String display() {
         return "hello";
     }
+
     @PostMapping("register")
-    public ResponseEntity<String> register(@RequestBody RegisterDto registerDto){
-        if(customerRepository.existsByEmail(registerDto.getEmail())){
+    public ResponseEntity<String> register(@RequestBody RegisterDto registerDto) {
+        if (customerRepository.existsByEmail(registerDto.getEmail())) {
             return new ResponseEntity<>("Email is already taken", HttpStatus.BAD_REQUEST);
         }
 
@@ -72,7 +73,7 @@ public class PublicController {
 
         customerRepository.save(customer);
 
-        return new ResponseEntity<>("Customer Registered Successfully",HttpStatus.OK);
+        return new ResponseEntity<>("Customer Registered Successfully", HttpStatus.OK);
 
     }
 }
