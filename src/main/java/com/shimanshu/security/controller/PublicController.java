@@ -3,9 +3,11 @@ package com.shimanshu.security.controller;
 import com.shimanshu.security.dto.AuthResponseDto;
 import com.shimanshu.security.dto.LoginDto;
 import com.shimanshu.security.dto.RegisterDto;
+import com.shimanshu.security.entity.AccessToken;
 import com.shimanshu.security.entity.Customer;
 import com.shimanshu.security.entity.Role;
 import com.shimanshu.security.entity.UserEntity;
+import com.shimanshu.security.repository.AccessTokenRepository;
 import com.shimanshu.security.repository.CustomerRepository;
 import com.shimanshu.security.repository.RoleRepository;
 import com.shimanshu.security.repository.UserRepository;
@@ -28,23 +30,24 @@ public class PublicController {
 
     private AuthenticationManager authenticationManager;
 
-
-
     private UserRepository userRepository;
     private RoleRepository roleRepository;
     private PasswordEncoder passwordEncode;
 
     private JWTGenerator jwtGenerator;
 
-    @Autowired
-    public PublicController(AuthenticationManager authenticationManager, UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncode, JWTGenerator jwtGenerator) {
-        this.authenticationManager = authenticationManager;
+    private AccessTokenRepository accessTokenRepository;
 
+    @Autowired
+    public PublicController(AuthenticationManager authenticationManager, UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncode, JWTGenerator jwtGenerator, AccessTokenRepository accessTokenRepository) {
+        this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncode = passwordEncode;
         this.jwtGenerator = jwtGenerator;
+        this.accessTokenRepository = accessTokenRepository;
     }
+
 
     @PostMapping("login")
     public ResponseEntity<AuthResponseDto> login(@RequestBody LoginDto loginDto) {
@@ -53,6 +56,14 @@ public class PublicController {
                         loginDto.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = jwtGenerator.generateToken(authentication);
+        UserEntity user = userRepository.findByEmail(loginDto.getEmail()).get();
+        AccessToken accessToken=new AccessToken();
+        accessToken.setToken(token);
+        accessToken.setEmail(loginDto.getEmail());
+        accessToken.setUserEntity(user);
+
+        accessTokenRepository.save(accessToken);
+
         return new ResponseEntity<>(new AuthResponseDto(token), HttpStatus.OK);
 
     }

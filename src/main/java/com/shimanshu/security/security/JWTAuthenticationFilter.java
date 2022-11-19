@@ -1,5 +1,7 @@
 package com.shimanshu.security.security;
 
+import com.shimanshu.security.entity.AccessToken;
+import com.shimanshu.security.repository.AccessTokenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -25,12 +27,21 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
     @Autowired
     private CustomUserDetailService customUserDetailService;
 
+    @Autowired
+    private AccessTokenRepository accessTokenRepository;
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
         String token = getJWTFromRequest(request);
         System.out.println(token);
-        if(StringUtils.hasText(token) && jwtGenerator.validateToken(token)){
+        AccessToken accessToken  = accessTokenRepository.findByToken(token);
+        boolean check = false;
+        if(accessToken !=null){
+            check = true;
+        }
+        if(StringUtils.hasText(token) && jwtGenerator.validateToken(token) && check){
+
 
             String username= jwtGenerator.getUsernameFromJWT(token);
             System.out.println(username);
