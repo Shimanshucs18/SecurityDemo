@@ -5,8 +5,8 @@ import com.shimanshu.security.entity.EmailDetails;
 public interface EmailService {
 
     // To send a simple email
-    String sendSimpleMail(EmailDetails details);
+    String sendSimpleMail(String email,String subject,String body);
 
     // To send an email with attachment
-    String sendMailWithAttachment(EmailDetails details);
+
 }

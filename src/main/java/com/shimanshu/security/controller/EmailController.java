@@ -21,9 +21,5 @@ public class EmailController {
         return status;
     }
 
-    public String sendMailWithAttachment(@RequestBody EmailDetails details){
-        String status = emailService.sendMailWithAttachment(details);
 
-        return status;
-    }
 }

@@ -1,8 +1,6 @@
 package com.shimanshu.security.controller;
 
-import com.shimanshu.security.dto.AuthResponseDto;
-import com.shimanshu.security.dto.LoginDto;
-import com.shimanshu.security.dto.RegisterDto;
+import com.shimanshu.security.dto.*;
 import com.shimanshu.security.entity.AccessToken;
 import com.shimanshu.security.entity.Customer;
 import com.shimanshu.security.entity.Role;
@@ -12,7 +10,9 @@ import com.shimanshu.security.repository.CustomerRepository;
 import com.shimanshu.security.repository.RoleRepository;
 import com.shimanshu.security.repository.UserRepository;
 import com.shimanshu.security.security.JWTGenerator;
+import com.shimanshu.security.service.UserPasswordService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -38,16 +38,19 @@ public class PublicController {
 
     private AccessTokenRepository accessTokenRepository;
 
+    private UserPasswordService userPasswordService;
+
+
     @Autowired
-    public PublicController(AuthenticationManager authenticationManager, UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncode, JWTGenerator jwtGenerator, AccessTokenRepository accessTokenRepository) {
+    public PublicController(AuthenticationManager authenticationManager, UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncode, JWTGenerator jwtGenerator, AccessTokenRepository accessTokenRepository, UserPasswordService userPasswordService) {
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncode = passwordEncode;
         this.jwtGenerator = jwtGenerator;
         this.accessTokenRepository = accessTokenRepository;
+        this.userPasswordService = userPasswordService;
     }
-
 
     @PostMapping("login")
     public ResponseEntity<AuthResponseDto> login(@RequestBody LoginDto loginDto) {
@@ -92,5 +95,17 @@ public class PublicController {
 
         return new ResponseEntity<>("Customer Registered Successfully", HttpStatus.OK);
 
+    }
+    @PostMapping("/forgot-password")
+    public String forgotPassword(@Valid @RequestBody ForgotPasswordDto forgotPasswordDto){
+        return userPasswordService.forgotPassword(forgotPasswordDto.getEmail());
+    }
+    @PostMapping("/set-password")
+    public ResponseEntity<String> setPassword(@Valid @RequestBody ResetPasswordDto resetPasswordDto){
+//        if(!resetPasswordDto.getPassword().equals(resetPasswordDto.getConfirmPassword())){
+//            return "Password do not match";
+////            throw new PasswordMismatchException("Password do not Match");
+//        }
+        return userPasswordService.resetUserPassword(resetPasswordDto);
     }
 }
