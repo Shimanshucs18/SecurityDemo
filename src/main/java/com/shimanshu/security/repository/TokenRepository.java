@@ -1,6 +1,7 @@
-package com.shimanshu.security.service;
+package com.shimanshu.security.repository;
 
 
+import com.shimanshu.security.service.Token;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 

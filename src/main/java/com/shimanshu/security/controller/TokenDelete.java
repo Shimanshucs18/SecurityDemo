@@ -4,6 +4,7 @@ import com.shimanshu.security.entity.UserEntity;
 
 import javax.persistence.*;
 
+@Entity
 public class TokenDelete {
 
     @Id

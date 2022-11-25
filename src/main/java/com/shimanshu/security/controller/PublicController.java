@@ -143,11 +143,11 @@ public class PublicController {
 
     @GetMapping("/profile")
     public ResponseEntity<?> customerProfile(@RequestParam("accessToken") String accessToken) {
-        return customerService.viewProfile(accessToken);
+        return customerService.viewMyProfile(accessToken);
     }
 
     @PutMapping("/update_profile")
-    public ResponseEntity<Customer> updateProfile(@RequestBody Customer customer) {
-        return customerService.updateProfile();
+    public ResponseEntity<?> updateProfile(@RequestBody UpdateCustomerDto updateCustomerDto) {
+        return customerService.updateProfile(updateCustomerDto);
     }
 }

@@ -15,8 +15,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-
-
+import java.util.Optional;
 
 
 public class JWTAuthenticationFilter extends OncePerRequestFilter {
@@ -35,7 +34,7 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
 
         String token = getJWTFromRequest(request);
         System.out.println(token);
-        AccessToken accessToken  = accessTokenRepository.findByToken(token);
+       Optional<AccessToken> accessToken  = accessTokenRepository.findByToken(token);
         boolean check = false;
         if(accessToken !=null){
             check = true;

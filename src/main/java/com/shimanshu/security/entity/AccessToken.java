@@ -2,7 +2,7 @@ package com.shimanshu.security.entity;
 
 import com.shimanshu.security.service.Token;
 import lombok.*;
-import org.apache.catalina.User;
+
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -42,11 +42,7 @@ public class AccessToken {
     public LocalDateTime expireAt;
 
 
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id")
-    private User user;
 
-    public AccessToken orElseThrow(Object invalid_access_token) {
-        return null;
-    }
+
+
 }

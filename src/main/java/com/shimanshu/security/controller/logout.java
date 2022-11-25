@@ -43,8 +43,8 @@ public class logout {
 
             if(accessTokenRepository.existsByToken(tokenValue)){
 
-                AccessToken accessToken = accessTokenRepository.findByToken(tokenValue);
-                accessTokenRepository.delete(accessToken);
+                        Optional<AccessToken> accessToken = accessTokenRepository.findByToken(tokenValue);
+                accessTokenRepository.deleteByToken(accessToken.get().getToken());
             }
         }
         return "Logged out Successfully";

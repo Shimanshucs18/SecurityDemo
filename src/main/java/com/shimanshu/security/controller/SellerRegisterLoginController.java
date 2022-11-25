@@ -60,7 +60,7 @@ public class SellerRegisterLoginController {
         }
         Seller seller =  new Seller();
 //        UserEntity user = new UserEntity();
-        userRepository.setEmail(registerDto.getEmail());
+        emailSenderService.setToEmail(registerDto.getEmail());
         seller.setPassword(passwordEncode.encode((registerDto.getPassword())));
 
         Role role =  roleRepository.findByAuthority("SELLER").get();
