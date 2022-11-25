@@ -1,48 +1,31 @@
 package com.shimanshu.security.entity;
 
+import lombok.Getter;
+import lombok.Setter;
 import javax.persistence.*;
 
+@Getter
+@Setter
 @Entity
 public class Address {
 
+    @SequenceGenerator(name = "address_sequence", sequenceName = "address_sequence", allocationSize = 1)
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "address_sequence")
     private Long id;
-
     private String city;
-
     private String state;
-
     private String country;
-
+    private String zipcode;
     private String addressLine;
+    private String label;
 
-    private int zipCode;
-
-    public void setCity(String mathura) {
-    }
-
-    public void setCountry(String india) {
-    }
-
-    public void setLabel(String homeTown) {
-    }
-
-    public void setState(String up) {
-    }
-
-    public void setZipcode(String s) {
-    }
-
-    public void add(Address address) {
-    }
-
-    public void setUser(UserEntity user) {
-    }
-
-    @ManyToOne()
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private UserEntity userEntity;
 
-
+    @Override
+    public String toString() {
+        return "\tCity: "+city+"\n\tState: "+state+"\n\tCountry: "+country+"\n\tAddress Line: "+addressLine+"\n\tZip Code: "+zipcode;
+    }
 }

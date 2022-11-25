@@ -23,6 +23,22 @@ public class EmailServiceImpl implements EmailService {
     private String sender;
 //    Method 1
 //    To send Simple Email
+//    public String sendSimpleMail(EmailDetails details){
+//        try {
+//            SimpleMailMessage mailMessage = new SimpleMailMessage();
+//
+//            mailMessage.setFrom(sender);
+//            mailMessage.setTo(details.getRecipient());
+//            mailMessage.setText(details.getMsgBody());
+//            mailMessage.setSubject(details.getSubject());
+//
+//            javaMailSender.send(mailMessage);
+//            return "Mail Sent Successfully...";
+//        }
+//        catch (Exception e){
+//            return "Error while Sending Mail";
+//        }
+//    }
 
     public String sendSimpleMail(String email,String subject,String body){
         try {
@@ -42,6 +58,15 @@ public class EmailServiceImpl implements EmailService {
         }
     }
 
+    @Override
+    public String sendMailWithAttachment(EmailDetails emailDetails) {
+        return null;
+    }
+
+    @Override
+    public String sendSimpleMail(EmailDetails details) {
+        return null;
+    }
 
 
 }

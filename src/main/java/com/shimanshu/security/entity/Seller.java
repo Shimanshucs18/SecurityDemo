@@ -1,36 +1,35 @@
 package com.shimanshu.security.entity;
 
+import lombok.Data;
 import javax.persistence.*;
-import java.util.List;
 
+@Data
 @Entity
-public class Seller {
+@Table(name = "sellers")
+public class Seller extends UserEntity {
 
+    @SequenceGenerator(name = "seller_sequence", sequenceName = "seller_sequence", allocationSize = 1)
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "seller_sequence")
     private Long id;
 
-    private Long gst;
-
-    private int companyContact;
-
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private UserEntity userEntity;
+    private String gstNumber;
+    private String companyContact;
     private String companyName;
 
-
-
-
     public Seller() {
+
     }
 
-    public void setEmail(String email) {
-    }
+    public Seller(UserEntity userEntity, String gstNumber, String companyContact, String companyName) {
+        this.userEntity = userEntity;
+        this.gstNumber = gstNumber;
+        this.companyContact = companyContact;
+        this.companyName = companyName;
 
-    public void setPassword(String encode) {
-    }
 
-    public void setRole(List<Role> singletonList) {
-    }
-
-    public void setActive(boolean b) {
     }
 }

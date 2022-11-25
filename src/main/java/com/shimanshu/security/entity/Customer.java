@@ -15,18 +15,33 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name="customer")
-@PrimaryKeyJoinColumn
-public class Customer {
+@PrimaryKeyJoinColumn(name = "user_id")
+public class Customer extends UserEntity  {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    Long id;
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.AUTO)
+//    Long id;
 
     private String contact;
 
 
-
-
-
-
+//    public String getFirstName() {
+//        return null;
+//    }
+//
+//    public String getLastName() {
+//        return null;
+//    }
+//
+//    public String isActive() {
+//        return null;
+//    }
+//
+//    public void setPassword(String encode) {
+//
+//    }
+//
+//    public void setRoles(List<Role> singletonList) {
+//
+//    }
 }

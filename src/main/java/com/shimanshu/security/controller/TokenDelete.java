@@ -21,4 +21,12 @@ public class TokenDelete {
     @JoinColumn(name = "user_id")
     private UserEntity userEntity;
 
+    public void setToken(String token) {
+    }
+
+    public void setUserEntity(Object user) {
+    }
+
+    public void setEmail(String email) {
+    }
 }

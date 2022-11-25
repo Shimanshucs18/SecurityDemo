@@ -3,13 +3,14 @@ package com.shimanshu.security.controller;
 
 import com.shimanshu.security.dto.AuthResponseDto;
 import com.shimanshu.security.dto.LoginDto;
-import com.shimanshu.security.dto.RegisterDto;
+import com.shimanshu.security.dto.RegisterDao;
 import com.shimanshu.security.entity.Role;
 import com.shimanshu.security.entity.Seller;
 import com.shimanshu.security.repository.RoleRepository;
 import com.shimanshu.security.repository.SellerRepository;
 import com.shimanshu.security.repository.UserRepository;
 import com.shimanshu.security.security.JWTGenerator;
+import com.shimanshu.security.service.EmailSenderService;
 import com.shimanshu.security.service.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -53,21 +54,21 @@ public class SellerRegisterLoginController {
 
     //register
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody RegisterDto registerDto) throws IOException {
+    public ResponseEntity<String> register(@RequestBody RegisterDao registerDto) throws IOException {
         if(userRepository.existsByEmail(registerDto.getEmail())) {
             return new ResponseEntity<>("Username is taken!", HttpStatus.BAD_REQUEST);
         }
-        Seller user =  new Seller();
+        Seller seller =  new Seller();
 //        UserEntity user = new UserEntity();
-        user.setEmail(registerDto.getEmail());
-        user.setPassword(passwordEncode.encode((registerDto.getPassword())));
+        userRepository.setEmail(registerDto.getEmail());
+        seller.setPassword(passwordEncode.encode((registerDto.getPassword())));
 
         Role role =  roleRepository.findByAuthority("SELLER").get();
-        user.setRole(Collections.singletonList(role));
+        seller.setRoles(Collections.singletonList(role));
 
-        sellerRepository.save(user);
+        sellerRepository.save(seller);
         String ID = UUID.randomUUID().toString();
-        String URL = "http://localhost:8080/seller/activate?token="+ID;
+        String URL = "http://localhost:9091/seller/activate?token="+ID;
         service.saveUUIDTokenWithEmail(registerDto.getEmail(),ID);
 
         emailSenderService.sendEmail(registerDto.getEmail(),"HELLO SELLER ",URL);
