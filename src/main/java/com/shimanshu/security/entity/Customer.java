@@ -1,47 +1,38 @@
 package com.shimanshu.security.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Data
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
 @Table(name="customer")
 @PrimaryKeyJoinColumn(name = "user_id")
 public class Customer extends UserEntity  {
 
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.AUTO)
-//    Long id;
+    @Id
+    @SequenceGenerator(name = "customer_sequence",sequenceName = "customer_sequence", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private UserEntity userEntity;
 
     private String contact;
 
+    public Customer(){
 
-//    public String getFirstName() {
-//        return null;
-//    }
-//
-//    public String getLastName() {
-//        return null;
-//    }
-//
-//    public String isActive() {
-//        return null;
-//    }
-//
-//    public void setPassword(String encode) {
-//
-//    }
-//
-//    public void setRoles(List<Role> singletonList) {
-//
-//    }
+    }
+
+    public Customer(UserEntity userEntity,String contact){
+        this.userEntity = userEntity;
+        this.contact = contact;
+    }
+
 }

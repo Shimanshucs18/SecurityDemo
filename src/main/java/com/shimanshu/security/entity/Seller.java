@@ -6,7 +6,7 @@ import javax.persistence.*;
 @Data
 @Entity
 @Table(name = "sellers")
-public class Seller extends UserEntity {
+public class Seller  {
 
     @SequenceGenerator(name = "seller_sequence", sequenceName = "seller_sequence", allocationSize = 1)
     @Id

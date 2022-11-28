@@ -1,6 +1,8 @@
 package com.shimanshu.security.EmailSenderImpl;
 
 import com.shimanshu.security.entity.EmailDetails;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
@@ -16,30 +18,14 @@ import java.io.File;
 @Service
 public class EmailServiceImpl implements EmailService {
 
+    private static Logger logger = LoggerFactory.getLogger(EmailService.class);
+
+
     @Autowired
     private JavaMailSender javaMailSender;
 
     @Value("${spring.mail.username}")
     private String sender;
-//    Method 1
-//    To send Simple Email
-//    public String sendSimpleMail(EmailDetails details){
-//        try {
-//            SimpleMailMessage mailMessage = new SimpleMailMessage();
-//
-//            mailMessage.setFrom(sender);
-//            mailMessage.setTo(details.getRecipient());
-//            mailMessage.setText(details.getMsgBody());
-//            mailMessage.setSubject(details.getSubject());
-//
-//            javaMailSender.send(mailMessage);
-//            return "Mail Sent Successfully...";
-//        }
-//        catch (Exception e){
-//            return "Error while Sending Mail";
-//        }
-//    }
-
     public String sendSimpleMail(String email,String subject,String body){
         try {
             SimpleMailMessage mailMessage = new SimpleMailMessage();
