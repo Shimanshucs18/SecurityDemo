@@ -70,7 +70,7 @@ public class SellerService {
     public ResponseEntity<?> updateSellerProfile(UpdateSellerDto updateSellerDto){
         String token = updateSellerDto.getAccessToken();
         AccessToken accessToken = accessTokenRepository.findByToken(token).orElseThrow(() -> new IllegalStateException("Invalid Access Token"));
-        LocalDateTime expireAdt = accessToken.getExpireAt();
+        LocalDateTime expireAdt = accessToken.getExpiresAt();
         if (expireAdt.isBefore(LocalDateTime.now())){
             throw new TokenExpiredException("Access Token Expired!!");
         }

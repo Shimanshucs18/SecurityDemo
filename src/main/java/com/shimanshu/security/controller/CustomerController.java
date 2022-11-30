@@ -15,7 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.mail.Multipart;
 
 @RestController
-@RequestMapping(value = "/customer")
+@RequestMapping(value = "/api/customer")
 public class CustomerController {
 
     @Autowired

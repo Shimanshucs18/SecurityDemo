@@ -1,39 +1,25 @@
 package com.shimanshu.security.entity;
 
-import com.shimanshu.security.service.Token;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.Instant;
 
-@Entity
 @Getter
 @Setter
+@Entity(name = "refreshToken")
 public class RefreshToken {
 
+    @SequenceGenerator(name = "refresh_token_sequence", sequenceName = "refresh_token_sequence", allocationSize = 1)
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(nullable = false,unique = true)
-
-    private String token;
-
-    @Column(nullable = false)
-    private String email;
-
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "refresh_token_sequence")
+    private long id;
+    @OneToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private UserEntity userEntity;
-
-    public static void set(Token token) {
-    }
-
-    public static Token get() {
-        return null;
-    }
-
-    public Object getUser() {
-            return null;
-    }
+    @Column(nullable = false, unique = true)
+    private String token;
+    @Column(nullable = false)
+    private Instant expiryDate;
 }

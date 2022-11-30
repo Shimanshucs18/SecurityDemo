@@ -17,10 +17,5 @@ public interface CustomerRepository extends JpaRepository<Customer,Long> {
     @Query(value = "SELECT * from customers a WHERE a.user_id = ?1", nativeQuery = true)
     Customer getCustomerByUserId(Long id);
 
-    public List<Customer> findAll();
-    Optional<Customer>findByEmail(String email);
-//    public Optional<Customer> findByEmail(String email);
-//    public boolean existsByEmail(String email);
-//
 
 }

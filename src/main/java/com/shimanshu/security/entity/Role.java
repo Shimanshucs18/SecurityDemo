@@ -1,40 +1,22 @@
 package com.shimanshu.security.entity;
 
-import javax.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
 
+import javax.persistence.*;
+@Getter
+@Setter
 @Entity
 @Table(name="roles")
-public class Role {
+public class Role implements GrantedAuthority {
 
+//    @SequenceGenerator(name = "role_sequence", sequenceName = "role_sequence", allocationSize = 1)
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(length = 60)
     private String authority;
-
-    public Role() {
-
-    }
-
-    public Role(Long id, String authority) {
-        this.id = id;
-        this.authority = authority;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getAuthority() {
-        return authority;
-    }
-
-    public void setAuthority(String authority) {
-        this.authority = authority;
-    }
 }
 

@@ -36,10 +36,11 @@ public class logout {
             TokenDelete tokenDelete = new TokenDelete();
             Optional<RefreshToken> token =refreshTokenRepo.findByToken(tokenValue);
             tokenDelete.setToken(token.get().getToken());
-            tokenDelete.setUserEntity(token.get().getUser());
-            tokenDelete.setEmail(token.get().getEmail());
+            tokenDelete.setUserEntity(token.get().getUserEntity());
+//            tokenDelete.setEmail(token.get().getEmail());
+            tokenDelete.setEmail(token.get().getUserEntity().getEmail());
             tokenDeleteRepository.save(tokenDelete);
-            refreshTokenRepo.deleteByToken(tokenValue);
+            refreshTokenRepo.findByToken(tokenValue);
 
             if(accessTokenRepository.existsByToken(tokenValue)){
 

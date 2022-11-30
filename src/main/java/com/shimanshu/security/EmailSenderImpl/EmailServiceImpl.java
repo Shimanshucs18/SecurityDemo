@@ -1,57 +1,39 @@
 package com.shimanshu.security.EmailSenderImpl;
 
-import com.shimanshu.security.entity.EmailDetails;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import java.io.File;
 
 @Service
-public class EmailServiceImpl implements EmailService {
+public class EmailServiceImpl implements EmailSender {
 
-    private static Logger logger = LoggerFactory.getLogger(EmailService.class);
-
+    private static Logger logger = LoggerFactory.getLogger(EmailSender.class);
 
     @Autowired
     private JavaMailSender javaMailSender;
 
-    @Value("${spring.mail.username}")
-    private String sender;
-    public String sendSimpleMail(String email,String subject,String body){
+    @Override
+    @Async
+    public void send(String to, String email) {
         try {
-            SimpleMailMessage mailMessage = new SimpleMailMessage();
-
-            mailMessage.setFrom(sender);
-            mailMessage.setTo(email);
-            mailMessage.setText(body);
-            mailMessage.setSubject(subject);
-
-            // Sending the mail
-            javaMailSender.send(mailMessage);
-            return "Mail Sent Successfully...";
+            MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "utf-8");
+            helper.setText(email, true);
+            helper.setTo(to);
+            helper.setSubject("Confirm your E-mail");
+            helper.setFrom("shimanshu.sharma@tothenew.com");
+            javaMailSender.send(mimeMessage);
+        } catch (MessagingException e) {
+            logger.error("Failed to send email!", e);
+            throw new IllegalStateException("Failed to send email!");
         }
-        catch (Exception e){
-            return "Error while Sender Mail";
-        }
-    }
-
-    @Override
-    public String sendMailWithAttachment(EmailDetails emailDetails) {
-        return null;
-    }
-
-    @Override
-    public String sendSimpleMail(EmailDetails details) {
-        return null;
     }
 
 

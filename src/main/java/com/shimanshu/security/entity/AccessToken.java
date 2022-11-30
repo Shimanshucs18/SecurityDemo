@@ -1,6 +1,5 @@
 package com.shimanshu.security.entity;
 
-import com.shimanshu.security.service.Token;
 import lombok.*;
 
 
@@ -16,9 +15,9 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name="access_token")
 public class AccessToken {
-
+    @SequenceGenerator(name = "access_token_sequence", sequenceName = "access_token_sequence", allocationSize = 1)
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @Column(nullable = false)
@@ -30,19 +29,15 @@ public class AccessToken {
     @Column(nullable = false)
     private LocalDateTime expiresAt;
 
-    @Column(nullable = false)
-    private String email;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id")
+    @OneToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private UserEntity userEntity;
 
-
-    @Column(nullable = false)
-    public LocalDateTime expireAt;
-
-
-
-
+    public AccessToken(String token, LocalDateTime createdAt, LocalDateTime expiresAt, UserEntity userEntity) {
+        this.token = token;
+        this.createdAt = createdAt;
+        this.expiresAt = expiresAt;
+        this.userEntity = userEntity;
+    }
 
 }

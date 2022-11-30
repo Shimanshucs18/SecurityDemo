@@ -10,7 +10,7 @@ import java.util.Set;
 public class Category {
     @SequenceGenerator(name = "category_sequence", sequenceName = "category_sequence", allocationSize = 1)
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE, generator = "category_sequence")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     private String name;

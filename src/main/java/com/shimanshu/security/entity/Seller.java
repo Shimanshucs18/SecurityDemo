@@ -1,35 +1,38 @@
 package com.shimanshu.security.entity;
 
-import lombok.Data;
+import lombok.*;
+
 import javax.persistence.*;
 
 @Data
 @Entity
+@Getter
+@Setter
+@AllArgsConstructor
 @Table(name = "sellers")
-public class Seller  {
+@NoArgsConstructor
+public class Seller{
 
-    @SequenceGenerator(name = "seller_sequence", sequenceName = "seller_sequence", allocationSize = 1)
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE, generator = "seller_sequence")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
+    @OneToOne(cascade = CascadeType.ALL)
     private UserEntity userEntity;
+
+    @Column(nullable = false)
     private String gstNumber;
+
+    @Column(nullable = false)
     private String companyContact;
+
+    @Column(nullable = false)
     private String companyName;
-
-    public Seller() {
-
-    }
 
     public Seller(UserEntity userEntity, String gstNumber, String companyContact, String companyName) {
         this.userEntity = userEntity;
         this.gstNumber = gstNumber;
         this.companyContact = companyContact;
         this.companyName = companyName;
-
-
     }
 }
